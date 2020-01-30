@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 
+
 class Application(Frame):
     def __init__(self, master):
         super().__init__(master)
@@ -19,7 +20,6 @@ class Application(Frame):
         self.create_widgets()
 
     def create_widgets(self):
-
         picture = "Capture.PNG"
         imageLarge = PhotoImage(file=r"C:\Users\alvin\Pictures\Hangman\\" + picture)
         w = Label(self, image=imageLarge)
@@ -28,7 +28,7 @@ class Application(Frame):
         print(self.word)
         x = 0
         for char in self.word:
-            Label(self, text="_").grid(row=0, column=x+1)
+            Label(self, text="_", width=3, font=("Impact", 30)).grid(row=0, column=x + 1)
             x += 1
         self.letterEntry = Entry(self)
         self.letterEntry.grid(row=1, column=0, sticky=W)
@@ -42,12 +42,10 @@ class Application(Frame):
             dict[x] = self.word[x]
         input = self.letterEntry.get()
         print(dict)
-        for x in range(len(self.word)):
+        for x in range(len(dict)):
             if input == dict[x]:
                 correct.append(x)
-        if len(correct) == 0:
-
-
+        print
 
 root = Tk()
 root.title("Hangman")
