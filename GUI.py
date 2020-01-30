@@ -19,6 +19,7 @@ class Application(Frame):
         self.create_widgets()
 
     def create_widgets(self):
+
         picture = "Capture.PNG"
         imageLarge = PhotoImage(file=r"C:\Users\alvin\Pictures\Hangman\\" + picture)
         w = Label(self, image=imageLarge)
@@ -29,6 +30,24 @@ class Application(Frame):
         for char in self.word:
             Label(self, text="_").grid(row=0, column=x+1)
             x += 1
+        self.letterEntry = Entry(self)
+        self.letterEntry.grid(row=1, column=0, sticky=W)
+        confirmButton = Button(self, command=self.letterInput, text="Confirm")
+        confirmButton.grid(row=1, column=0, sticky=E)
+
+    def letterInput(self):
+        dict = {}
+        correct = []
+        for x in range(len(self.word)):
+            dict[x] = self.word[x]
+        input = self.letterEntry.get()
+        print(dict)
+        for x in range(len(self.word)):
+            if input == dict[x]:
+                correct.append(x)
+        if len(correct) == 0:
+
+
 
 root = Tk()
 root.title("Hangman")
