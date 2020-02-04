@@ -36,6 +36,8 @@ class Application(Frame):
         confirmButton = Button(self, command=self.letterInput, text="Confirm")
         confirmButton.grid(row=1, column=0, sticky=E)
         self.usedCharacters = []
+        self.badLabel = Label(self, font=("Times", 15))
+        self.badLabel.grid(row=2, column=0, sticky=N)
 
     def letterInput(self):
         self.bad = False
@@ -46,9 +48,7 @@ class Application(Frame):
         input = self.letterEntry.get()
         input = input.lower()
         words = self.checkInput(input)
-        badLabel = Label(self, font=("Times", 15))
-        badLabel.grid(row=2, column=0, sticky=N)
-        badLabel["text"] = words
+        self.badLabel["text"] = words
         if self.bad == False:
             for x in range(len(dict)):
                 if input == dict[x]:
@@ -84,8 +84,6 @@ class Application(Frame):
         elif input in self.usedCharacters:
             self.bad = True
             return "You already used that character"
-        else:
-            return ""
 
 root = Tk()
 root.title("Hangman")
