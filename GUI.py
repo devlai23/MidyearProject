@@ -33,13 +33,16 @@ class Application(Frame):
             x += 1
         self.letterEntry = Entry(self)
         self.letterEntry.grid(row=1, column=0, sticky=W)
-        confirmButton = Button(self, command=self.letterInput, text="Confirm")
-        confirmButton.grid(row=1, column=0, sticky=E)
+        self.confirmButton = Button(self, command=self.letterInput, text="Confirm")
+        self.confirmButton.grid(row=1, column=0, sticky=E)
         self.usedCharacters = []
         self.badLabel = Label(self, font=("Times", 15))
         self.badLabel.grid(row=2, column=0, sticky=N)
+        self.rightLabel = Label(self, font=("Times", 20))
+        self.rightLabel.grid(row=4, column=0, sticky=N)
 
     def letterInput(self):
+        self.badLabel["text"] = ""
         self.bad = False
         dict = {}
         correct = []
@@ -56,6 +59,8 @@ class Application(Frame):
             if len(correct) == 0:
                 self.w.config(image='')
                 self.picturenum += 1
+                if self.picturenum > 7:
+                    self.picturenum = 7
                 self.picturenum = str(self.picturenum)
                 picture = "Capture" + self.picturenum + ".PNG"
                 imageLarge = PhotoImage(file=r"C:\Users\alvin\Pictures\Hangman\\" + picture)
@@ -63,12 +68,26 @@ class Application(Frame):
                 self.w.photo = imageLarge
                 self.w.grid(row=0, column=0)
                 self.picturenum = int(self.picturenum)
+                if self.picturenum == 7:
+                    self.wonlost = Label(self, text="You Lost!", font=("Impact", 30))
+                    self.wonlost.grid(row=2, column=0, sticky=N)
+                    self.letterEntry.destroy()
+                    self.confirmButton.destroy()
+                    self.retryButton = Button(self, text="Retry", font=("Impact", 20), bg="Light Blue", command=self.retry)
+                    self.retryButton.grid(row=3, column=0, sticky=N)
+                    self.rightLabel["text"] = "The word was " + self.word
             else:
                 for x in correct:
                     self.labelDict[x].config(text=dict[x])
                     self.times += 1
                 if self.times == len(self.word):
-                    Label(self, text="You Won!", font=("Impact", 30)).grid(row=2, column=0, sticky=N)
+                    self.wonlost = Label(self, text="You Won!", font=("Impact", 30))
+                    self.wonlost.grid(row=2, column=0, sticky=N)
+                    self.badLabel.destroy()
+                    self.letterEntry.destroy()
+                    self.confirmButton.destroy()
+                    self.retryButton = Button(self, text="Retry", font=("Impact", 20), bg="Light Blue", command=self.retry)
+                    self.retryButton.grid(row=3, column=0, sticky=N)
             self.usedCharacters.append(input)
         elif self.bad == True:
             pass
@@ -84,6 +103,39 @@ class Application(Frame):
         elif input in self.usedCharacters:
             self.bad = True
             return "You already used that character"
+
+    def retry(self):
+        self.rightLabel.destroy()
+        self.picturenum = int(1)
+        self.times = 0
+        number = random.randint(1, len(self.wordlist))
+        self.word = self.wordlist[number]
+        self.wordlength = len(self.word)
+        print(self.word)
+        self.wonlost.destroy()
+        self.retryButton.destroy()
+        self.w.destroy()
+        picture = "Capture.PNG"
+        imageLarge = PhotoImage(file=r"C:\Users\alvin\Pictures\Hangman\\" + picture)
+        self.w = Label(self, image=imageLarge)
+        self.w.photo = imageLarge
+        self.w.grid(row=0, column=0)
+        for x in self.labelDict.values():
+            x.destroy()
+        self.labelDict.clear()
+        x = 0
+        for char in self.word:
+            self.labelDict[x] = Label(self, text="_", width=3, font=("Impact", 30))
+            self.labelDict[x].grid(row=0, column=x + 1)
+            x += 1
+        self.letterEntry = Entry(self)
+        self.letterEntry.grid(row=1, column=0, sticky=W)
+        self.confirmButton = Button(self, command=self.letterInput, text="Confirm")
+        self.confirmButton.grid(row=1, column=0, sticky=E)
+        self.usedCharacters = []
+        self.badLabel = Label(self, font=("Times", 15))
+        self.badLabel.grid(row=2, column=0, sticky=N)
+
 
 root = Tk()
 root.title("Hangman")
