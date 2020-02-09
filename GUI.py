@@ -24,7 +24,7 @@ class Application(Frame):
         self.w = Label(self, image=imageLarge)
         self.w.photo = imageLarge
         self.w.grid(row=0, column=0)
-        print(self.word)
+        #print(self.word)
         x = 0
         self.labelDict = {}
         for char in self.word:
@@ -42,6 +42,7 @@ class Application(Frame):
         self.rightLabel.grid(row=4, column=0, sticky=N)
         self.usedCharBox = Text(self, width=15, height=15, wrap=WORD)
         self.usedCharBox.grid(row=0, column=x+1, columnspan=3)
+        self.usedCharBox.config(state=DISABLED)
 
     def letterInput(self):
         self.badLabel["text"] = ""
@@ -90,12 +91,14 @@ class Application(Frame):
                     self.confirmButton.destroy()
                     self.retryButton = Button(self, text="Retry", font=("Impact", 20), bg="Light Blue", command=self.retry)
                     self.retryButton.grid(row=3, column=0, sticky=N)
+            self.usedCharBox.config(state=NORMAL)
             self.usedCharacters.append(input)
             self.usedCharacters.sort()
             self.usedCharacters.reverse()
             self.usedCharBox.delete(0.0, END)
             for x in self.usedCharacters:
                 self.usedCharBox.insert(0.0,  " " + x)
+            self.usedCharBox.config(state=DISABLED)
         elif self.bad == True:
             pass
 
@@ -118,7 +121,7 @@ class Application(Frame):
         number = random.randint(1, len(self.wordlist))
         self.word = self.wordlist[number]
         self.wordlength = len(self.word)
-        print(self.word)
+        #print(self.word)
         self.usedCharBox.destroy()
         self.wonlost.destroy()
         self.retryButton.destroy()
@@ -138,6 +141,7 @@ class Application(Frame):
             x += 1
         self.usedCharBox = Text(self, width=15, height=15, wrap=WORD)
         self.usedCharBox.grid(row=0, column=x + 1, columnspan=3)
+        self.usedCharBox.config(state=DISABLED)
         self.letterEntry = Entry(self)
         self.letterEntry.grid(row=1, column=0, sticky=W)
         self.confirmButton = Button(self, command=self.letterInput, text="Confirm")
@@ -145,9 +149,11 @@ class Application(Frame):
         self.usedCharacters = []
         self.badLabel = Label(self, font=("Times", 15))
         self.badLabel.grid(row=2, column=0, sticky=N)
+        self.rightLabel = Label(self, font=("Times", 20))
+        self.rightLabel.grid(row=4, column=0, sticky=N)
 
 
 root = Tk()
-root.title("Hangman")
+root.title("Hangman!")
 app = Application(root)
 root.mainloop()
