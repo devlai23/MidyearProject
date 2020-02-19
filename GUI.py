@@ -20,7 +20,7 @@ class Application(Frame):
 
     def create_widgets(self):
         picture = "Capture.PNG"
-        imageLarge = PhotoImage(file=r"C:\Users\alvin\Pictures\Hangman\\" + picture)
+        imageLarge = PhotoImage(file=picture)
         self.w = Label(self, image=imageLarge)
         self.w.photo = imageLarge
         self.w.grid(row=0, column=0)
@@ -66,7 +66,7 @@ class Application(Frame):
                     self.picturenum = 7
                 self.picturenum = str(self.picturenum)
                 picture = "Capture" + self.picturenum + ".PNG"
-                imageLarge = PhotoImage(file=r"C:\Users\alvin\Pictures\Hangman\\" + picture)
+                imageLarge = PhotoImage(file=picture)
                 self.w = Label(self, image=imageLarge)
                 self.w.photo = imageLarge
                 self.w.grid(row=0, column=0)
@@ -76,7 +76,8 @@ class Application(Frame):
                     self.wonlost.grid(row=2, column=0, sticky=N)
                     self.letterEntry.destroy()
                     self.confirmButton.destroy()
-                    self.retryButton = Button(self, text="Retry", font=("Impact", 20), bg="Light Blue", command=self.retry)
+                    self.retryButton = Button(self, text="Retry", font=("Impact", 20), bg="Light Blue",
+                                              command=self.retry)
                     self.retryButton.grid(row=3, column=0, sticky=N)
                     self.rightLabel["text"] = "The word was " + self.word
             else:
@@ -89,7 +90,8 @@ class Application(Frame):
                     self.badLabel.destroy()
                     self.letterEntry.destroy()
                     self.confirmButton.destroy()
-                    self.retryButton = Button(self, text="Retry", font=("Impact", 20), bg="Light Blue", command=self.retry)
+                    self.retryButton = Button(self, text="Retry", font=("Impact", 20), bg="Light Blue",
+                                              command=self.retry)
                     self.retryButton.grid(row=3, column=0, sticky=N)
             self.usedCharBox.config(state=NORMAL)
             self.usedCharacters.append(input)
@@ -103,16 +105,17 @@ class Application(Frame):
             pass
 
     def checkInput(self, input):
-        validList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+        validList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+                     "u", "v", "w", "x", "y", "z"]
         if len(input) > 1:
             self.bad = True
-            return "Please only enter one character"
+            return "Please enter one character."
         elif input not in validList:
             self.bad = True
-            return "Invalid character"
+            return "Invalid character."
         elif input in self.usedCharacters:
             self.bad = True
-            return "You already used that character"
+            return "You already used that character."
 
     def retry(self):
         self.rightLabel.destroy()
@@ -121,13 +124,13 @@ class Application(Frame):
         number = random.randint(1, len(self.wordlist))
         self.word = self.wordlist[number]
         self.wordlength = len(self.word)
-        #print(self.word)
+        # print(self.word)
         self.usedCharBox.destroy()
         self.wonlost.destroy()
         self.retryButton.destroy()
         self.w.destroy()
         picture = "Capture.PNG"
-        imageLarge = PhotoImage(file=r"C:\Users\alvin\Pictures\Hangman\\" + picture)
+        imageLarge = PhotoImage(file=picture)
         self.w = Label(self, image=imageLarge)
         self.w.photo = imageLarge
         self.w.grid(row=0, column=0)
@@ -137,7 +140,7 @@ class Application(Frame):
         x = 0
         for char in self.word:
             self.labelDict[x] = Label(self, text="_", width=3, font=("Impact", 30))
-            self.labelDict[x].grid(row=0, column=x + 1)
+            self.labelDict[x].grid(row=0, column=x+1)
             x += 1
         self.usedCharBox = Text(self, width=15, height=15, wrap=WORD)
         self.usedCharBox.grid(row=0, column=x + 1, columnspan=3)
