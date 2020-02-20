@@ -13,7 +13,7 @@ class Application(Frame):
         for x in file:
             x = x.strip()
             self.wordlist.append(x)
-        number = random.randint(1, len(self.wordlist))
+        number = random.randint(0, len(self.wordlist))
         self.word = self.wordlist[number]
         self.wordlength = len(self.word)
         self.create_widgets()
